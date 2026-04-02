@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-# from pprint import pprint
+from pprint import pprint
 
 dataPath = os.path.join(os.path.dirname(__file__), "1.5mmRegions")
 
@@ -11,9 +11,9 @@ if not os.path.exists(plotPath):
 
 regionBaseName = "T_E_ROI_42_locations_"
 clouds = [
-    {"name": "CD8", "color": "orange"},
-    {"name": "FoxP3", "color": "skyblue"},
-    {"name": "CD68", "color": "purple"},
+    {"name": "CD8", "color": "orange", "points": []},
+    {"name": "FoxP3", "color": "skyblue", "points": []},
+    {"name": "CD68", "color": "purple", "points": []},
 ]
 
 def read_csv(csvPath):
@@ -38,6 +38,8 @@ def read_csv(csvPath):
 
 
 if __name__ == "__main__":
+
+
     for cloud in clouds:
         fileName = regionBaseName + cloud["name"] + '.csv'
         filePath = os.path.join(dataPath, cloud["name"], fileName)
@@ -47,6 +49,20 @@ if __name__ == "__main__":
             print(f"Could not find point cloud {filePath}")
             continue
 
-        points = read_csv(filePath)
-        print(len(points))
+        points = np.array(read_csv(filePath))
+        print(points.shape)
         # pprint(points)
+
+        fig = plt.figure(1)
+        plt.title(f'Region T E ROI 42: {cloud["name"]}')
+        plt.scatter(points[:, 0], points[:, 1], color=cloud["color"], s=4)
+        plt.show()
+
+        cloud["points"] = points
+
+    fig = plt.figure(1)
+    plt.title(f'Region T E ROI 42')
+    for cloud in clouds:
+        plt.scatter(cloud["points"][:, 0], cloud["points"][:, 1], color=cloud["color"], s=4, label=cloud["name"])
+    plt.legend(loc="best", shadow=False, ncols=1, fontsize='small')
+    plt.show()
