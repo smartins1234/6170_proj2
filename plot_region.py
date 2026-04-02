@@ -38,31 +38,41 @@ def read_csv(csvPath):
 
 
 if __name__ == "__main__":
-
-
     for cloud in clouds:
         fileName = regionBaseName + cloud["name"] + '.csv'
         filePath = os.path.join(dataPath, cloud["name"], fileName)
-        # print(filePath)
-        # print(os.path.isfile(filePath))
+
+        print(f'loading point cloud data: {filePath}...')
+
         if not os.path.isfile(filePath):
             print(f"Could not find point cloud {filePath}")
             continue
 
         points = np.array(read_csv(filePath))
-        print(points.shape)
+        print(f'\tcloud data shape: {points.shape}')
         # pprint(points)
+
+        plotImage = os.path.join(plotPath, f'{regionBaseName}{cloud["name"]}.png')
 
         fig = plt.figure(1)
         plt.title(f'Region T E ROI 42: {cloud["name"]}')
         plt.scatter(points[:, 0], points[:, 1], color=cloud["color"], s=4)
-        plt.show()
+        plt.savefig(plotImage)
+        plt.close()
+
+        print(f'\tpoint cloud figure saved to: {plotImage}')
 
         cloud["points"] = points
+        print()
+
+    plotImage = os.path.join(plotPath, f'{regionBaseName}.png')
 
     fig = plt.figure(1)
     plt.title(f'Region T E ROI 42')
     for cloud in clouds:
         plt.scatter(cloud["points"][:, 0], cloud["points"][:, 1], color=cloud["color"], s=4, label=cloud["name"])
     plt.legend(loc="best", shadow=False, ncols=1, fontsize='small')
-    plt.show()
+    # plt.show()
+    plt.savefig(plotImage)
+
+    print(f'point cloud figure saved to: {plotImage}')
