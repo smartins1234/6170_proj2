@@ -65,12 +65,17 @@ if __name__ == "__main__":
         cloud["points"] = points
         print()
 
-    plotImage = os.path.join(plotPath, f'{regionBaseName}.png')
+    cd68 = [e for e in clouds if e["name"] == "CD68"][0]
+    foxp3 = [e for e in clouds if e["name"] == "FoxP3"][0]
+
+    plotImage = os.path.join(plotPath, f'{regionBaseName}combined_CD68_FoxP3.png')
 
     fig = plt.figure(1)
-    plt.title(f'Region T E ROI 42')
-    for cloud in clouds:
-        plt.scatter(cloud["points"][:, 0], cloud["points"][:, 1], color=cloud["color"], s=4, label=cloud["name"])
+    plt.title(f'Region T E ROI 42 Combined CD68 and FoxP3')
+
+    plt.scatter(cd68["points"][:, 0], cd68["points"][:, 1], color=cd68["color"], s=4, label=cd68["name"])
+    plt.scatter(foxp3["points"][:, 0], foxp3["points"][:, 1], color=foxp3["color"], s=4, label=foxp3["name"])
+
     plt.legend(loc="best", shadow=False, ncols=1, fontsize='small')
     # plt.show()
     plt.savefig(plotImage)
