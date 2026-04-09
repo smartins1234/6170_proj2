@@ -57,7 +57,8 @@ if __name__ == "__main__":
         fig = plt.figure(1)
         plt.title(f'Region T E ROI 42: {cloud["name"]}')
         plt.scatter(points[:, 0], points[:, 1], color=cloud["color"], s=4)
-        plt.savefig(plotImage)
+        # plt.savefig(plotImage)
+        plt.show()
         plt.close()
 
         print(f'\tpoint cloud figure saved to: {plotImage}')
@@ -77,7 +78,7 @@ if __name__ == "__main__":
     plt.scatter(foxp3["points"][:, 0], foxp3["points"][:, 1], color=foxp3["color"], s=4, label=foxp3["name"])
 
     plt.legend(loc="best", shadow=False, ncols=1, fontsize='small')
-    # plt.show()
-    plt.savefig(plotImage)
+    plt.show()
+    # plt.savefig(plotImage)
 
-    print(f'point cloud figure saved to: {plotImage}')
+    # print(f'point cloud figure saved to: {plotImage}')
